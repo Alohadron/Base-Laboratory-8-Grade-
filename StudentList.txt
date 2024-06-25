@@ -1,0 +1,7 @@
+fcim,John,Burlacu,alohadron2012@gmail.com,28.08.2000
+fcim,Alex,Burlacu,alex02@gmail.com,08.02.2002
+fcim,Alex,Burlacu,alex01@gmail.com,08.02.2002
+fcim,Alex,Burlacu,alex01@gmail.com,08.02.2002
+fcim,Alex,Burlacu,alex01@gmail.com,08.02.2002
+fcim,Alex,Burlacu,alex1@gmail.com,08.02.2002
+fcim,Alex,Burlacu,alex0@gmail.com,08.02.2002
