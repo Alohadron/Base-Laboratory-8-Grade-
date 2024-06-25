@@ -95,7 +95,8 @@ def grad_stud():
                student_data.remove(elem)
            with open("Enrolled.txt","w") as file:
                        file.write("")#am sters tot din file    
-           for a in student_data:               
+           for a in student_data:
+                   a = a[0:5]               
                    for b in a:
                        with open("Enrolled.txt","a") as file:
                            file.write(b)#am adaugat ce  avem nevoie
