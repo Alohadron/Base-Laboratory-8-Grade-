@@ -28,8 +28,8 @@ What do you want to do?
 
 ns - create student
 gs - graduate student
-ds/<faculty abbreviation> - display enrolled students
-dg/<faculty abbreviation> - display graduated students
+ds - display enrolled students
+dg - display graduated students
 bf/<faculty abbreviation>/<email> - check if student belongs to faculty
 
 b - back
@@ -47,7 +47,7 @@ q - Quit Program
 """
 
 
-#------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #Creaza un Student
 class Student:
     def __init__(self) -> None:
@@ -71,7 +71,7 @@ def createStudent():
     stud = Student()
     stud.studC()
 
-#------------------------------------------------------------------------------------------------------
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #Graduate a student
 with open("Enrolled.txt","r") as f:
     data = f.readlines()
@@ -80,7 +80,17 @@ with open("Enrolled.txt","r") as f:
         noN = line.replace("\n","")
         splited = noN.split(",")
         student_data.append(splited)
-print(student_data)
+# print(student_data)
+
+with open("Graduated.txt","r") as f:
+    data = f.readlines()
+    gstudent_data = []
+    for line in data:
+        noN = line.replace("\n","")
+        splited = noN.split(",")
+        gstudent_data.append(splited)
+# print(gstudent_data)
+
 def grad_stud(): 
     x = input()
     found = False
@@ -90,7 +100,7 @@ def grad_stud():
            print(f"Congratulations, {elem[1]} has graduated")
            with open("Graduated.txt","a") as f:               
                for item in elem:
-                   f.write(item + " ") 
+                   f.write(item + ",")
                f.write("\n")
                student_data.remove(elem)
            with open("Enrolled.txt","w") as file:
@@ -112,10 +122,27 @@ def grad_stud():
         print("Student not found")
         
 
-grad_stud()
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#display student
+def dis_stud():
+    x = input()
+    for i in student_data:
+        if x == i[0]:
+            print(i[1:3])
+        else:
+            print("Nu exista asa facultate")
+            terminal_menu()
 
-                  
-#------------------------------------------------------------------------------------------------------
+def dis_gstud():
+    x = input()
+    for i in gstudent_data:
+        if x == i[0]:
+            print(i[1:3])
+        else:
+            print("Nu exista asa facultate")
+            terminal_menu() 
+    
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Functia Terminal
 def terminal_menu():
     print(menu)
@@ -140,6 +167,14 @@ def terminal_menu():
         elif inp2 == "gs":
             print("Enter student's email for graduation:")
             grad_stud()
+            terminal_menu()
+        elif inp2 == "ds":
+            print("Type faculty abbreviation:")
+            dis_stud()
+            terminal_menu()        
+        elif inp2 == "dg":
+            print("Type faculty abbreviation:")
+            dis_gstud()
             terminal_menu()        
         elif inp2 == "b":
             terminal_menu()
@@ -159,7 +194,6 @@ def terminal_menu():
         else:
             print("Nu exista asa comanda") 
             terminal_menu()   
-
     elif inp1 == "q":
         print("Program quited")
         
@@ -167,7 +201,7 @@ def terminal_menu():
         print("Nu exista asa comanda")
         terminal_menu()
    
-# terminal_menu()
+terminal_menu()
 
 
 
