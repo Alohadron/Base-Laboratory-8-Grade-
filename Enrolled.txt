@@ -1,0 +1,4 @@
+fcim,ion,bur,aloha@gmail.com,228
+fcim,sanea,bur,alex@gmail.com,112
+fcim,vlad,pol,vlad1@gmail.com,100
+fcim,vlad,pol,vlad@gmail.com,100

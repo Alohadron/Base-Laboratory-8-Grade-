@@ -30,7 +30,7 @@ ns - create student
 gs - graduate student
 ds - display enrolled students
 dg - display graduated students
-bf/<faculty abbreviation>/<email> - check if student belongs to faculty
+bf - check if student belongs to faculty
 
 b - back
 q - Quit Program
@@ -128,7 +128,7 @@ def dis_stud():
     x = input()
     for i in student_data:
         if x == i[0]:
-            print(i[1:3])
+            print(i[1:5])
         else:
             print("Nu exista asa facultate")
             terminal_menu()
@@ -137,11 +137,27 @@ def dis_gstud():
     x = input()
     for i in gstudent_data:
         if x == i[0]:
-            print(i[1:3])
+            print(i[1:5])
         else:
             print("Nu exista asa facultate")
             terminal_menu() 
     
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#check if a student belongs to a faculty
+def check():
+    x,y = input().split("/")
+    for i in student_data:
+        if x == i[0] and y == i[3]:
+            print(f"Studentul {i[1]} {i[2]} face parte din facultatea {x} ")
+        if x != i[0] and y != i[3]:
+            print("Ati introdus <faculty abbreviation> incorect")
+        if x == i[0] and y != i[3]:
+            print("Studentul nu face parte din aceasta facultate")
+    
+    
+    
+
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 # Functia Terminal
 def terminal_menu():
@@ -176,6 +192,10 @@ def terminal_menu():
             print("Type faculty abbreviation:")
             dis_gstud()
             terminal_menu()        
+        elif inp2 == "bf":
+            print("Type: <faculty abbreviation>/<email> ")
+            check()
+            terminal_menu()
         elif inp2 == "b":
             terminal_menu()
         elif inp2 == "q":
