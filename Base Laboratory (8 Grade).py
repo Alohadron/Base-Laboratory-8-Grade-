@@ -1,4 +1,5 @@
 from datetime import date
+from enum import Enum
 
 menu ="""---------------------------------------------------------------
 Welcome to TUM's student management system!
@@ -13,7 +14,7 @@ general_operations = """--------------------------------------------------------
 General operations
 What do you want to do?
 
-nf/<faculty name>/<faculty abbreviation>/<field> - create faculty
+nf - create faculty
 ss/<student email> - search student and show faculty
 df - display faculties
 df/<field> - display all faculties of a field
@@ -51,7 +52,7 @@ q - Quit Program
 #Creaza un Student
 class Student:
     def __init__(self) -> None:
-        self.facultyAbbreviation,self.firstName,self.lastName,self.email,self.dateOfBirth = input().split("/")
+        self.facultyAbbreviation,self.firstName,self.lastName,self.email,self.dateOfBirth =input().split("/")
         
     def studC(self):
         print("Succes!\nFaculty Abbreviation:", self.facultyAbbreviation,
@@ -156,17 +157,83 @@ def check():
             print("Studentul nu face parte din aceasta facultate")
     
     
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#Create Faculty
+class Faculty:
+    def __init__(self) -> None:
+        self.facultyName,self.facultyAbbreviation,self.field = input().split("/")
     
+    def dis_createdFaculty(self):
+        print("Faculty Created!\nFaculty Name:", self.facultyName,
+            "\nFaculty Abbreviation:", self.facultyAbbreviation,
+            "\nField: ",self.field)
+
+        with open("Faculties.txt","a") as f:
+            f.write(self.facultyName + ",")
+            f.write(self.facultyAbbreviation + ",")
+            f.write(self.facultyName)
+        
+   
+
+def createFaculty():
+    print("Creaza Facultatea.\nExemplu:<faculty name>/<faculty abbreviation>/<field>")
+    faculty = Faculty()
+    faculty.dis_createdFaculty()
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-# Functia Terminal
+class StudyField(Enum):
+    def __init__(self) -> None:
+        MECHANICAL_ENGINEERING = 1
+        SOFTWARE_ENGINEERING = 2
+        FOOD_TECHNOLOGY = 3
+        URBANIS_ARHITECTURE = 4
+        VETERINARY_MEDICINE = 5
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#Search student and show faculty
+with open("Faculties.txt","r") as f:
+    data = f.readlines()
+    facultiesList = []
+    for line in data:
+        noN = line.replace("\n","")
+        splited = noN.split(",")
+        facultiesList.append(splited)
+    
+    
+        
+
+def searchStudent():
+    x = input()
+    found = False
+    for i in student_data:
+        if x == i[3]:
+            for z in facultiesList:
+                
+                if i[0] == z[1]:
+                    found = True
+                    print(z[0])
+               
+    if not found:
+        print("Studentul nu asista la nici o facultate")
+   
+                    
+                    
+    
+
+
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#Functia Terminal
 def terminal_menu():
     print(menu)
     inp1 = input()
-    if inp1 == "g":
+    if inp1 == "g":#General Operations
         print(general_operations)
         inp2 = input()
         if inp2 == "b":
+            terminal_menu()
+        elif inp2 == "nf":
+            createFaculty()
             terminal_menu()
         elif inp2 == "q":
             print("Program quited")
@@ -174,7 +241,7 @@ def terminal_menu():
             print("Nu exista asa comanda")
             terminal_menu()
             
-    elif inp1 == "f":
+    elif inp1 == "f":#Faculty Operations
         print(faculty_operations)
         inp2 = input()
         if inp2 == "ns":
@@ -204,7 +271,7 @@ def terminal_menu():
             print("Nu exista asa comanda") 
             terminal_menu()
 
-    elif inp1 == "s":
+    elif inp1 == "s":#Student Operations
         print(student_operation)
         inp2 = input()
         if inp2 == "b":
@@ -221,7 +288,7 @@ def terminal_menu():
         print("Nu exista asa comanda")
         terminal_menu()
    
-terminal_menu()
+# terminal_menu()
 
 
 
