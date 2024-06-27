@@ -15,9 +15,9 @@ General operations
 What do you want to do?
 
 nf - create faculty
-ss/<student email> - search student and show faculty
+ss - search student and show faculty
 df - display faculties
-df/<field> - display all faculties of a field
+dff - display all faculties of a field
 
 b - back
 q - Quit Program
@@ -47,7 +47,6 @@ b - back
 q - Quit Program
 """
 
-
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #Creaza un Student
 class Student:
@@ -74,23 +73,15 @@ def createStudent():
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #Graduate a student
+
+student_data = []
+gstudent_data = []
 with open("Enrolled.txt","r") as f:
     data = f.readlines()
-    student_data = []
     for line in data:
         noN = line.replace("\n","")
         splited = noN.split(",")
         student_data.append(splited)
-# print(student_data)
-
-with open("Graduated.txt","r") as f:
-    data = f.readlines()
-    gstudent_data = []
-    for line in data:
-        noN = line.replace("\n","")
-        splited = noN.split(",")
-        gstudent_data.append(splited)
-# print(gstudent_data)
 
 def grad_stud(): 
     x = input()
@@ -114,15 +105,10 @@ def grad_stud():
                            file.write(",")
                    with open("Enrolled.txt","a") as file:
                        file.write("\n")
-                           
-                   
-
-            
-           
+                                      
     if found == False:
         print("Student not found")
         
-
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #display student
 def dis_stud():
@@ -143,65 +129,64 @@ def dis_gstud():
             print("Nu exista asa facultate")
             terminal_menu() 
     
-
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #check if a student belongs to a faculty
+
 def check():
     x,y = input().split("/")
+    found_student = False
+    found_faculty = False
     for i in student_data:
-        if x == i[0] and y == i[3]:
-            print(f"Studentul {i[1]} {i[2]} face parte din facultatea {x} ")
-        if x != i[0] and y != i[3]:
-            print("Ati introdus <faculty abbreviation> incorect")
-        if x == i[0] and y != i[3]:
-            print("Studentul nu face parte din aceasta facultate")
+        if x == i[0] and found_faculty == False:
+            found_faculty = True
+        if y == i[3] and found_student == False:
+            found_student = True
+        if found_faculty and found_student:
+            print(f"Studentul {i[1]} {i[2]} face parte dan facultatea {x}")
     
-    
+    if not found_faculty:
+        print("Ati introdus <faculty abbreviation> incorect")
+    if not found_student:
+        print("Studentul nu face parte din aceasta facultate") 
+
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #Create Faculty
+StudyField = ["MECHANICAL_ENGINEERING","SOFTWARE_ENGINEERING","FOOD_TECHNOLOGY","URBANISM_ARHITECTURE","VETERINARY_MEDICINE"]
 class Faculty:
     def __init__(self) -> None:
+        found = False
         self.facultyName,self.facultyAbbreviation,self.field = input().split("/")
-    
-    def dis_createdFaculty(self):
-        print("Faculty Created!\nFaculty Name:", self.facultyName,
-            "\nFaculty Abbreviation:", self.facultyAbbreviation,
-            "\nField: ",self.field)
-
-        with open("Faculties.txt","a") as f:
-            f.write(self.facultyName + ",")
-            f.write(self.facultyAbbreviation + ",")
-            f.write(self.facultyName)
+        StudyField1 = ["MECHANICAL_ENGINEERING","SOFTWARE_ENGINEERING","FOOD_TECHNOLOGY","URBANISM_ARHITECTURE","VETERINARY_MEDICINE"]
+        for i in StudyField1:
+            if i == self.field:
+                print("---------------------------------------------------------------\nFaculty Created!\nFaculty Name:", self.facultyName,
+                    "\nFaculty Abbreviation:", self.facultyAbbreviation,
+                    "\nField: ",self.field)
         
-   
-
-def createFaculty():
-    print("Creaza Facultatea.\nExemplu:<faculty name>/<faculty abbreviation>/<field>")
-    faculty = Faculty()
-    faculty.dis_createdFaculty()
-
-#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-class StudyField(Enum):
-    def __init__(self) -> None:
-        MECHANICAL_ENGINEERING = 1
-        SOFTWARE_ENGINEERING = 2
-        FOOD_TECHNOLOGY = 3
-        URBANIS_ARHITECTURE = 4
-        VETERINARY_MEDICINE = 5
-
-
+                with open("Faculties.txt","a") as f:
+                    f.write(self.facultyName + ",")
+                    f.write(self.facultyAbbreviation + ",")
+                    f.write(self.field + '\n')
+                found = True
+        if not found:
+            print("---------------------------------------------------------------\nStudy Field Incorect")    
+    
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #Search student and show faculty
+with open("Enrolled.txt","r") as f:
+    data = f.readlines()
+    for line in data:
+        noN = line.replace("\n","")
+        splited = noN.split(",")
+        student_data.append(splited)
 with open("Faculties.txt","r") as f:
     data = f.readlines()
     facultiesList = []
     for line in data:
         noN = line.replace("\n","")
         splited = noN.split(",")
-        facultiesList.append(splited)
+        facultiesList.append(splited) 
     
-    
-        
 
 def searchStudent():
     x = input()
@@ -209,31 +194,63 @@ def searchStudent():
     for i in student_data:
         if x == i[3]:
             for z in facultiesList:
-                
-                if i[0] == z[1]:
+                if i[0].lower() == z[1].lower(): 
                     found = True
-                    print(z[0])
-               
-    if not found:
-        print("Studentul nu asista la nici o facultate")
-   
-                    
-                    
+                    print(f"Studentul: {i[1]} {i[2]}, Facultatea: {z[0]}") 
+            break     
+    if not found: 
+        print("Nu avem asa student") 
     
-
+#------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+#Display all faculties of a field
+def dis_ff():
+    x = input("Type Field:").upper()
+    ff_list = []
+    for i in facultiesList:
+        if x == i[2]:
+            ff_list.append(i[0])
+    print(ff_list)
 
 #------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 #Functia Terminal
 def terminal_menu():
+    with open("Enrolled.txt","r") as f:
+        data = f.readlines()
+        for line in data:
+            noN = line.replace("\n","")
+            splited = noN.split(",")
+            student_data.append(splited)
+
+    with open("Graduated.txt","r") as f:
+        data = f.readlines()
+        for line in data:
+            noN = line.replace("\n","")
+            splited = noN.split(",")
+            gstudent_data.append(splited)
+              
     print(menu)
-    inp1 = input()
+    inp1 = input().lower()
     if inp1 == "g":#General Operations
         print(general_operations)
-        inp2 = input()
+        inp2 = input().lower()
         if inp2 == "b":
             terminal_menu()
         elif inp2 == "nf":
-            createFaculty()
+            print("Faculty Field trebuie sa fie unul din lista de mai jos")
+            for i in StudyField:
+                print(i)
+            print("Creaza Facultatea.\nExemplu:<faculty name>/<faculty abbreviation>/<field>")
+            Faculty()
+            terminal_menu()
+        elif inp2 == "ss":
+            print("Enter student's email:")
+            searchStudent()
+            terminal_menu()
+        elif inp2 == "df":
+            print(facultiesList)
+            terminal_menu()
+        elif inp2 == "dff":
+            dis_ff()
             terminal_menu()
         elif inp2 == "q":
             print("Program quited")
@@ -243,7 +260,7 @@ def terminal_menu():
             
     elif inp1 == "f":#Faculty Operations
         print(faculty_operations)
-        inp2 = input()
+        inp2 = input().lower()
         if inp2 == "ns":
             createStudent()
             terminal_menu()
@@ -273,7 +290,7 @@ def terminal_menu():
 
     elif inp1 == "s":#Student Operations
         print(student_operation)
-        inp2 = input()
+        inp2 = input().lower()
         if inp2 == "b":
             terminal_menu()
         elif inp2 == "q":
@@ -288,8 +305,7 @@ def terminal_menu():
         print("Nu exista asa comanda")
         terminal_menu()
    
-# terminal_menu()
-
+terminal_menu()
 
 
 

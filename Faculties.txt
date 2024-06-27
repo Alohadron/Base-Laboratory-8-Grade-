@@ -1,5 +1,10 @@
-Media si Telecomunicatii,MTC,Media si Telecomunicatii
-Media si Telecomunicatii,MTC,Media si Telecomunicatii
-Media si Telecomunicatii,MTC,Media si Telecomunicatii
-Media si Telecomunicatii,MTC,Media si Telecomunicatii
-Media si Telecomunicatii,FCIM,Media si Telecomunicatii
+Buna ziua,BZ,MECHANICAL_ENGINEERING
+Buna ziua1,BZ1,MECHANICAL_ENGINEERING
+Banzai,BAN,SOFTWARE_ENGINEERING
+Banzai1,BAN1,SOFTWARE_ENGINEERING
+Arigato,ARG,FOOD_TECHNOLOGY
+Arigato1,ARG1,FOOD_TECHNOLOGY
+I Don't Know,IDK,URBANISM_ARHITECTURE
+I Don't Know1,IDK1,URBANISM_ARHITECTURE
+LastOne,LO,VETERINARY_MEDICINE
+fcim,LO1,VETERINARY_MEDICINE
